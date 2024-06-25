@@ -50,7 +50,6 @@ public class UserController {
 	    	Watcher w = new Watcher(user);
 	    			watcherRepository.save(w);
 	    }
-	    userRepository.save(user);
 	}
 	
 	@DeleteMapping("/{id}")

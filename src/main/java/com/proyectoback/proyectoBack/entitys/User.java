@@ -26,7 +26,7 @@ public class User implements UserDetails{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer id;
 	protected String username;
-	@Column( name = "email_address", unique = true, nullable = false)
+	@Column(unique = true, nullable = false)
 	protected String email;
 	protected String password;
 	private boolean accountNonExpired = true;
