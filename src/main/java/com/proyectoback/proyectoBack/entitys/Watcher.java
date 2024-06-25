@@ -22,4 +22,11 @@ public class Watcher extends User{
 			this.email = user.getEmail();
 			this.password = user.getPassword();		
 			}
+
+
+	public Watcher() {
+		super();
+	}
+	 
+	 
 }

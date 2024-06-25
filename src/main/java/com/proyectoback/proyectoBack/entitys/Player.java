@@ -24,4 +24,10 @@ private int points;
 		this.email = user.getEmail();
 		this.password = user.getPassword();
 		}
+
+public Player() {
+	super();
+}
+ 
+ 
 }

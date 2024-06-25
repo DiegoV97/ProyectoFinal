@@ -54,7 +54,7 @@ public class Security {
 	    http.authorizeHttpRequests((requests) -> {
 	        try {
 	            requests
-	                .requestMatchers("/user/register", "/user", "/login?logout", "/logout").permitAll()
+	                .requestMatchers("/user/register","/login", "/login?logout", "/logout").permitAll()
 	                .anyRequest().authenticated();
 	        } catch (Exception e) {
 	            e.printStackTrace();
