@@ -1,16 +1,12 @@
-package com.proyectoback.proyectoBack;
-
-import java.util.List;
+package com.proyectoback.proyectoBack.entitys;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+
 
 @Entity
 public class Challenge {
@@ -52,19 +48,19 @@ public class Challenge {
 		this.points = points;
 	}
 
-	public User getWatcher() {
+	public Watcher getWatcher() {
 		return watcher;
 	}
 
-	public void setWatcher(User watcher) {
+	public void setWatcher(Watcher watcher) {
 		this.watcher = watcher;
 	}
 
-	public User getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(User player) {
+	public void setPlayer(Player player) {
 		this.player = player;
 	}
 }

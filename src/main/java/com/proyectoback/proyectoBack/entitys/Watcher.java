@@ -2,7 +2,8 @@ package com.proyectoback.proyectoBack.entitys;
 
 import java.util.List;
 
-import Dto.UserDto;
+import com.proyectoback.proyectoBack.Dto.UserDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 @Entity
