@@ -1,4 +1,4 @@
-package Dto;
+package com.proyectoback.proyectoBack.Dto;
 
 import com.proyectoback.proyectoBack.entitys.User;
 
