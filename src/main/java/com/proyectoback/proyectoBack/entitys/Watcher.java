@@ -6,7 +6,11 @@ import com.proyectoback.proyectoBack.Dto.UserDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 @Entity
+@Getter @Setter
 public class Watcher extends User{
 	
 	 @OneToMany (mappedBy = "watcher")
