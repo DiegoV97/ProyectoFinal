@@ -1,6 +1,8 @@
 package com.proyectoback.proyectoBack.entitys;
 
 import java.util.ArrayList;
+
+
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -12,10 +14,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
-@Data
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
-@Table(name = "User")
+@Table(name = "user")
+@Getter @Setter
 
 public class User implements UserDetails{
 	@Id
