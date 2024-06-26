@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proyectoback.proyectoBack.entitys.Challenge;
-import com.proyectoback.proyectoBack.entitys.User;
+import com.proyectoback.proyectoBack.entitys.Watcher;
 import com.proyectoback.proyectoBack.repositories.ChallengeRepository;
+import com.proyectoback.proyectoBack.repositories.WatcherRepository;
 
 
 @RestController
@@ -23,6 +25,8 @@ public class ChallengeController {
     
 	@Autowired
     private ChallengeRepository challengeRepository;
+	
+	@Autowired WatcherRepository watcherRepository;
 
     @GetMapping
     public List<Challenge> getAllChallenge() {
@@ -34,8 +38,22 @@ public class ChallengeController {
         return challengeRepository.findById(id).orElse(null);
     }
 
+//    @PostMapping
+//    public Challenge createChallenge(@RequestBody Challenge challenge) {
+//    	Watcher watcher = watcherRepository.findById(challenge.getWatcher().getId())
+//    	        .orElseThrow(() -> new RuntimeException("Watcher not found"));
+//    	challenge.setWatcher(watcher);
+//        return challengeRepository.save(challenge);
+//    }
+    
     @PostMapping
-    public Challenge createChallenge(@RequestBody Challenge challenge) {
+    public Challenge createChallenge(@RequestParam("description") String description, @RequestParam("points") int points, @RequestParam("watcher") int id_watcher) {
+    	Watcher watcher = watcherRepository.findById(id_watcher)
+    	        .orElseThrow(() -> new RuntimeException("Watcher not found"));
+    	Challenge challenge = new Challenge();
+    	challenge.setDescription(description);
+    	challenge.setPoints(points);
+    	challenge.setWatcher(watcher);
         return challengeRepository.save(challenge);
     }
 
