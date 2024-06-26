@@ -1,8 +1,10 @@
 package com.proyectoback.proyectoBack.entitys;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyectoback.proyectoBack.Dto.UserDto;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import lombok.Setter;
 public class Watcher extends User{
 	
 	 @OneToOne (mappedBy = "watcher")
+	 @JsonBackReference
 	 private Challenge chellenge;
 	 
 	 
