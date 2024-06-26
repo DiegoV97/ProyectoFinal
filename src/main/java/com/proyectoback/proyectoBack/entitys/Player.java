@@ -1,12 +1,13 @@
 package com.proyectoback.proyectoBack.entitys;
 
-import java.util.List;
+
+
 
 
 import com.proyectoback.proyectoBack.Dto.UserDto;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
@@ -16,8 +17,8 @@ public class Player extends User{
 
 private int points;
 
- @OneToMany (mappedBy = "player")
- private List<Challenge> chellenge;
+ @OneToOne (mappedBy = "player")
+ private Challenge chellenge;
  
  public Player(UserDto user) {
 		this.username = user.getUsername();
