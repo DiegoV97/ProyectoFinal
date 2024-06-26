@@ -28,6 +28,7 @@ public class User implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer id;
+	@Column(unique = true, nullable = false)
 	protected String username;
 	@Column(unique = true, nullable = false)
 	protected String email;
