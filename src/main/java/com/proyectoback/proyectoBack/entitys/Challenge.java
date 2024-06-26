@@ -2,8 +2,11 @@ package com.proyectoback.proyectoBack.entitys;
 
 import org.w3c.dom.Text;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,10 +24,12 @@ public class Challenge {
     private int points;
 
     @OneToOne
+    @JsonManagedReference
     @JoinColumn(name = "watcher_id")
     private Watcher watcher;
 
     @OneToOne
+    @JsonManagedReference
     @JoinColumn(name = "player_id")
     private Player player;
 

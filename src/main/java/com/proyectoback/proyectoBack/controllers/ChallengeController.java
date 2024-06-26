@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proyectoback.proyectoBack.entitys.Challenge;
+import com.proyectoback.proyectoBack.entitys.Player;
 import com.proyectoback.proyectoBack.entitys.Watcher;
 import com.proyectoback.proyectoBack.repositories.ChallengeRepository;
+import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
 
 
@@ -27,6 +29,8 @@ public class ChallengeController {
     private ChallengeRepository challengeRepository;
 	
 	@Autowired WatcherRepository watcherRepository;
+	
+	@Autowired PlayerRepository playerRepository;
 
     @GetMapping
     public List<Challenge> getAllChallenge() {
@@ -58,16 +62,18 @@ public class ChallengeController {
     }
 
     @PutMapping("/{id}")
-    public Challenge updateChallenge(@PathVariable int id, @RequestBody Challenge challengeDetails) {
+    public Challenge updateChallenge(@PathVariable int id,@RequestParam("player") int id_player ) {
+    	
         Challenge challenge = challengeRepository.findById(id).orElse(null);
-        if (challenge != null) {
-            challenge.setDescription(challengeDetails.getDescription());
-            challenge.setPoints(challengeDetails.getPoints());
-            challenge.setWatcher(challengeDetails.getWatcher());
-            challenge.setPlayer(challengeDetails.getPlayer());
-            return challengeRepository.save(challenge);
-        }
-        return null;
+       
+    		
+    		Player player = playerRepository.findById(id_player)
+        	        .orElseThrow(() -> new RuntimeException("Player not found"));
+    		
+    	 	
+        	challenge.setPlayer(player);
+    		return challengeRepository.save(challenge);
+     
     }
 
     @DeleteMapping("/{id}")
