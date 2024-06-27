@@ -1,17 +1,10 @@
 package com.proyectoback.proyectoBack.controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.proyectoback.proyectoBack.Dto.UserDto;
 import com.proyectoback.proyectoBack.entitys.Image;
 import com.proyectoback.proyectoBack.entitys.Player;
@@ -33,6 +27,7 @@ import com.proyectoback.proyectoBack.repositories.ImageRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.UserRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
+import com.proyectoback.proyectoBack.services.CloudinaryService;
 
 @CrossOrigin
 @RestController
@@ -40,8 +35,8 @@ import com.proyectoback.proyectoBack.repositories.WatcherRepository;
 public class UserController {
 	//final Path root = Paths.get("uploads");
 	
-	  @Value("${upload.dir}")
-	    private String uploadDir;
+//	  @Value("${upload.dir}")
+//	    private String uploadDir;
 
 	
 	@Autowired
@@ -51,7 +46,9 @@ public class UserController {
 	@Autowired
 	private WatcherRepository watcherRepository;
 	 @Autowired
-	    private ImageRepository imageRepository;
+	 private ImageRepository imageRepository;
+	 @Autowired
+	 private CloudinaryService cloudinaryService;
 
 	@Autowired
 	BCryptPasswordEncoder encoder;
@@ -121,17 +118,19 @@ public class UserController {
 
         try {
             // Generar un nombre de archivo único
-            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            Path path = Paths.get(uploadDir + File.separator + fileName);
-            Files.copy(file.getInputStream(), path);
+//            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+//            Path path = Paths.get(uploadDir + File.separator + fileName);
+//            Files.copy(file.getInputStream(), path);
+        	
+        	Map result = cloudinaryService.upload(file);
 
             // Guardar la ruta en la base de datos y asociar la imagen con el usuario
             Image image = new Image();
-            image.setPath(path.toString());
+            image.setPath((String)result.get("url"));
             image.setUser(user);
             imageRepository.save(image);
 
-            return "Archivo subido exitosamente: " + path.toString();
+            return "Archivo subido exitosamente: " + image.getPath();
         } catch (IOException e) {
             e.printStackTrace();
             return "Fallo al subir el archivo";
