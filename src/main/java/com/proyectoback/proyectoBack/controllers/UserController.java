@@ -19,11 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.proyectoback.proyectoBack.Dto.UserDto;
-import com.proyectoback.proyectoBack.entitys.Image;
 import com.proyectoback.proyectoBack.entitys.Player;
 import com.proyectoback.proyectoBack.entitys.User;
 import com.proyectoback.proyectoBack.entitys.Watcher;
-import com.proyectoback.proyectoBack.repositories.ImageRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.UserRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
@@ -45,8 +43,6 @@ public class UserController {
 	private PlayerRepository playerRepository;
 	@Autowired
 	private WatcherRepository watcherRepository;
-	 @Autowired
-	 private ImageRepository imageRepository;
 	 @Autowired
 	 private CloudinaryService cloudinaryService;
 
@@ -124,13 +120,10 @@ public class UserController {
         	
         	Map result = cloudinaryService.upload(file);
 
-            // Guardar la ruta en la base de datos y asociar la imagen con el usuario
-            Image image = new Image();
-            image.setPath((String)result.get("url"));
-            image.setUser(user);
-            imageRepository.save(image);
+        	user.setImagenUrl((String)result.get("url"));     
+            userRepository.save(user);
 
-            return "Archivo subido exitosamente: " + image.getPath();
+            return "Archivo subido exitosamente: " + user.getImagenUrl();
         } catch (IOException e) {
             e.printStackTrace();
             return "Fallo al subir el archivo";

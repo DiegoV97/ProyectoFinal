@@ -34,8 +34,7 @@ public class User implements UserDetails{
 	@Column(unique = true, nullable = false)
 	protected String email;
 	protected String password;
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Image> images;
+	private String imagenUrl;
 	private boolean accountNonExpired = true;
 	private boolean accountNonLocked= true;
 	private boolean credentialsNonExpired = true;
