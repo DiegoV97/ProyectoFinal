@@ -4,15 +4,19 @@ import java.util.ArrayList;
 
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +34,8 @@ public class User implements UserDetails{
 	@Column(unique = true, nullable = false)
 	protected String email;
 	protected String password;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Image> images;
 	private boolean accountNonExpired = true;
 	private boolean accountNonLocked= true;
 	private boolean credentialsNonExpired = true;

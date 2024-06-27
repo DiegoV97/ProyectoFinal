@@ -9,5 +9,4 @@ public interface PlayerRepository extends CrudRepository<Player, Integer>  {
 
 	
 	
-
 }
