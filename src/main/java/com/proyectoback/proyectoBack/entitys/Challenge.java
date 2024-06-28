@@ -9,9 +9,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
+@Getter @Setter
 public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +22,8 @@ public class Challenge {
     @Column(columnDefinition = "TEXT")
     private String description;
     private int points;
-
+    private String videoUrl;
+    
     @OneToOne
     @JsonManagedReference
     @JoinColumn(name = "watcher_id")
@@ -29,45 +33,5 @@ public class Challenge {
     @JsonManagedReference
     @JoinColumn(name = "player_id")
     private Player player;
-
-    public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public int getPoints() {
-		return points;
-	}
-
-	public void setPoints(int points) {
-		this.points = points;
-	}
-
-	public Watcher getWatcher() {
-		return watcher;
-	}
-
-	public void setWatcher(Watcher watcher) {
-		this.watcher = watcher;
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
 }
 	
