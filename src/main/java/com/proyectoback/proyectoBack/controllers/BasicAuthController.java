@@ -23,9 +23,9 @@ public class BasicAuthController {
 		 User user = userRepository.findByUsername(principal.getName());
 		 
 		 if (user instanceof Watcher == true) {
-			return ResponseEntity.ok().body("{\"rol\":\"watcher\"}");
+			return ResponseEntity.ok().body("{\rol:\"watcher\"}");
 		} else if (user instanceof Player == true) {
-			return ResponseEntity.ok().body("{\"rol\":\"player\"}");
+			return ResponseEntity.ok().body("{\rol:\"player\"}");
 		}
 		return null;
 	}
