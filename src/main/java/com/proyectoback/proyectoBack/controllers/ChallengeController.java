@@ -58,9 +58,9 @@ public class ChallengeController {
 //    }
     
     @PostMapping
-    public Challenge createChallenge(@RequestParam("description") String description, @RequestParam("points") int points, @RequestParam("watcher") int id_watcher) {
-    	Watcher watcher = watcherRepository.findById(id_watcher)
-    	        .orElseThrow(() -> new RuntimeException("Watcher not found"));
+    public Challenge createChallenge(@RequestParam("description") String description, @RequestParam("points") int points, @RequestParam("watcher") String username_watcher) {
+    	Watcher watcher = watcherRepository.findByUsername(username_watcher);
+    	        
     	Challenge challenge = new Challenge();
     	challenge.setDescription(description);
     	challenge.setPoints(points);
@@ -69,14 +69,13 @@ public class ChallengeController {
     }
 
     @PutMapping("/{id}")
-    public Challenge updateChallenge(@PathVariable int id,@RequestParam("player") int id_player ) {
+    public Challenge updateChallenge(@PathVariable int id,@RequestBody Map<String, String> requestBody ) {
     	
+    		String username = requestBody.get("username");
         Challenge challenge = challengeRepository.findById(id).orElse(null);
        
-    		
-    		Player player = playerRepository.findById(id_player)
-        	        .orElseThrow(() -> new RuntimeException("Player not found"));
-    		
+    		System.out.println(username);
+    		Player player = playerRepository.findByUsername(username);
     	 	
         	challenge.setPlayer(player);
     		return challengeRepository.save(challenge);
@@ -89,7 +88,7 @@ public class ChallengeController {
     }
     
 	@PostMapping("/{id}/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("id") int id) {
+    public String uploadFile(@PathVariable int id,@RequestParam("player") String username, @RequestParam("file") MultipartFile file, @RequestParam("points") int points) {
         if (file.isEmpty()) {
             return "Archivo vacío";
         }
@@ -97,6 +96,10 @@ public class ChallengeController {
         Challenge challenge = challengeRepository.findById(id).get();
         if (challenge == null) {
             return "Challenge no encontrado";
+        }
+        Player player = playerRepository.findByUsername(username);
+        if (player == null) {
+            return "Player no encontrado";
         }
 
         try {
@@ -107,6 +110,7 @@ public class ChallengeController {
         	
         	Map result = cloudinaryService.uploadVideo(file);
 
+        	player.setPoints(points);
         	challenge.setVideoUrl((String)result.get("url"));     
             challengeRepository.save(challenge);
 
