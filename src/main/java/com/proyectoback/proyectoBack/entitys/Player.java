@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyectoback.proyectoBack.Dto.UserDto;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +31,5 @@ private int points;
 public Player() {
 	super();
 }
- 
  
 }
