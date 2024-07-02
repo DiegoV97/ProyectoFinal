@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +25,7 @@ public class Challenge {
     private int points;
     private String videoUrl;
     
-    @OneToOne
+    @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "watcher_id")
     private Watcher watcher;

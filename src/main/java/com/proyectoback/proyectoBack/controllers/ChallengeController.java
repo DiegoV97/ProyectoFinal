@@ -60,12 +60,17 @@ public class ChallengeController {
     @PostMapping
     public Challenge createChallenge(@RequestParam("description") String description, @RequestParam("points") int points, @RequestParam("watcher") String username_watcher) {
     	Watcher watcher = watcherRepository.findByUsername(username_watcher);
-    	        
+    	//   Watcher watcher = new Watcher();     
     	Challenge challenge = new Challenge();
     	challenge.setDescription(description);
     	challenge.setPoints(points);
+    	//watcher.setId(99);
     	challenge.setWatcher(watcher);
-        return challengeRepository.save(challenge);
+    	
+    	System.out.println(watcher.getId()+"11111111-"+ challenge.getId());
+         challengeRepository.save(challenge);
+         System.out.println("aaaaaaaaaaaa");
+         return null;
     }
 
     @PutMapping("/{id}")
