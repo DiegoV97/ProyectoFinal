@@ -82,9 +82,9 @@ public class UserController {
 		userRepository.save(user);
 	}
 
-	@GetMapping("/{id}")
-	public User selectUserById(@PathVariable("id")Integer id) {
-		return userRepository.findById(id).orElse(null);
+	@GetMapping("/{username}")
+	public User selectUserById(@PathVariable("username")String username) {
+		return userRepository.findByUsername(username);
 	}
 
 	//@PostMapping("/upload")
