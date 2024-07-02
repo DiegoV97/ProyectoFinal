@@ -9,6 +9,6 @@ import lombok.Setter;
 @Getter @Setter
 public class UserDto extends User {
 	
-	private int rol;
+	private String rol;
 
 }
