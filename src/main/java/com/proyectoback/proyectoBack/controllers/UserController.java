@@ -53,11 +53,11 @@ public class UserController {
 	public void createUser(@RequestBody UserDto user) {
 		user.setPassword(encoder.encode(user.getPassword()));
 
-		if (user.getRol() == 0) {
+		if (user.getRol().equals("player")) {
 			Player n = new Player(user);
 			playerRepository.save(n);
 
-		} else if (user.getRol() == 1) {
+		} else if (user.getRol().equals("watcher")) {
 			Watcher w = new Watcher(user);
 			watcherRepository.save(w);
 		}
