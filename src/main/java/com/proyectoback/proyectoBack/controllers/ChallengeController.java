@@ -64,10 +64,8 @@ public class ChallengeController {
     	challenge.setPoints(points);
     	challenge.setWatcher(watcher);
     	
-    	System.out.println(watcher.getId()+"11111111-"+ challenge.getId());
-         challengeRepository.save(challenge);
-         System.out.println("aaaaaaaaaaaa");
-         return null;
+    	return challengeRepository.save(challenge);
+          
     }
 
     @PutMapping("/{id}")
