@@ -11,11 +11,11 @@ import com.proyectoback.proyectoBack.Dto.UserDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import lombok.Getter;
-import lombok.Setter;
+
+
+
 @Entity
-@Getter @Setter
+
 public class Player extends User{
  
 
@@ -34,5 +34,23 @@ private int points;
 public Player() {
 	super();
 }
+
+public int getPoints() {
+	return points;
+}
+
+public void setPoints(int points) {
+	this.points = points + this.points;
+}
+
+public List<Challenge> getChallenge() {
+	return challenge;
+}
+
+public void setChallenge(List<Challenge> challenge) {
+	this.challenge = challenge;
+}
+
+
  
 }
