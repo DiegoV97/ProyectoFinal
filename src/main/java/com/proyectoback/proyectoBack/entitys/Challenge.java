@@ -30,7 +30,7 @@ public class Challenge {
     @JoinColumn(name = "watcher_id")
     private Watcher watcher;
 
-    @OneToOne
+    @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "player_id")
     private Player player;
