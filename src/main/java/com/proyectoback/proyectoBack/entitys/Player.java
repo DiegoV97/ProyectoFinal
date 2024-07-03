@@ -8,12 +8,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyectoback.proyectoBack.Dto.UserDto;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
-@Getter @Setter
+
 public class Player extends User{
  
 
@@ -32,6 +31,21 @@ private int points;
 public Player() {
 	super();
 }
- 
+
+public int getPoints() {
+	return points;
+}
+
+public void setPoints(int points) {
+	this.points = points + this.points;
+}
+
+public Challenge getChellenge() {
+	return chellenge;
+}
+
+public void setChellenge(Challenge chellenge) {
+	this.chellenge = chellenge;
+}
  
 }

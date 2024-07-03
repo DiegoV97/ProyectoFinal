@@ -1,9 +1,10 @@
 package com.proyectoback.proyectoBack.controllers;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,12 +25,17 @@ import com.proyectoback.proyectoBack.entitys.Watcher;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.UserRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
-
+import com.proyectoback.proyectoBack.services.CloudinaryService;
 
 @CrossOrigin
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
+	//final Path root = Paths.get("uploads");
+	
+//	  @Value("${upload.dir}")
+//	    private String uploadDir;
+
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -37,52 +43,90 @@ public class UserController {
 	private PlayerRepository playerRepository;
 	@Autowired
 	private WatcherRepository watcherRepository;
-	
+	 @Autowired
+	 private CloudinaryService cloudinaryService;
+
 	@Autowired
 	BCryptPasswordEncoder encoder;
-	
+
 	@PostMapping("/register")
 	public void createUser(@RequestBody UserDto user) {
-	    user.setPassword(encoder.encode(user.getPassword()));
-	    
-	    if( user.getRol()== 0) { 
-	    	Player n = new Player(user);		
-	    	playerRepository.save(n);
-	    	
-	    } else if ( user.getRol()==1) {
-	    	Watcher w = new Watcher(user);
-	    			watcherRepository.save(w);
-	    }
+		user.setPassword(encoder.encode(user.getPassword()));
+
+		if (user.getRol().equals("player")) {
+			Player n = new Player(user);
+			playerRepository.save(n);
+
+		} else if (user.getRol().equals("watcher")) {
+			Watcher w = new Watcher(user);
+			watcherRepository.save(w);
+		}
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public void deleteUser(@PathVariable("id") Integer id) {
 		User i = new User();
 		i.setId(id);
 		userRepository.delete(i);
 	}
-	
+
 	@GetMapping
 	public List<User> selectPeople() {
 		List<User> people = userRepository.findAll();
 		return people;
 	}
-	
+
 	@PutMapping("/{id}")
-	public void updatePeople(@RequestBody User user, @PathVariable("id")Integer id) {
+	public void updatePeople(@RequestBody User user, @PathVariable("id") Integer id) {
 		user.setId(id);
 		userRepository.save(user);
 	}
-	
-	@GetMapping("/{id}")
-	public User selectUserById(@PathVariable("id")Integer id) {
-		return userRepository.findById(id).orElse(null);
+
+	@GetMapping("/{username}")
+	public User selectUserById(@PathVariable("username")String username) {
+		return userRepository.findByUsername(username);
 	}
+
+	//@PostMapping("/upload")
+	//public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
+		//try {
+		  //    Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+			//	return ResponseEntity.ok().body("{\"resp\":\"Archivo cargado con éxito\"}");
+  
+		 //} catch (Exception e) {
+		   //   if (e instanceof FileAlreadyExistsException) {
+		     //   throw new RuntimeException("A file of that name already exists.");
+		      //}
+		      //throw new RuntimeException(e.getMessage());
+		    //}
+	//}
 	
 	@PostMapping("/upload")
-	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
-		return ResponseEntity.ok().body("{\"resp\":\"Archivo cargado con éxito\"}");
-	}
-	
+    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("username") String username) {
+        if (file.isEmpty()) {
+            return "Archivo vacío";
+        }
 
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return "Usuario no encontrado";
+        }
+
+        try {
+            // Generar un nombre de archivo único
+//            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+//            Path path = Paths.get(uploadDir + File.separator + fileName);
+//            Files.copy(file.getInputStream(), path);
+        	
+        	Map result = cloudinaryService.upload(file);
+
+        	user.setImagenUrl((String)result.get("url"));     
+            userRepository.save(user);
+
+            return "Archivo subido exitosamente: " + user.getImagenUrl();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Fallo al subir el archivo";
+        }
+    }
 }
