@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.proyectoback.proyectoBack.entitys.Challenge;
 import com.proyectoback.proyectoBack.entitys.Player;
-import com.proyectoback.proyectoBack.entitys.User;
 import com.proyectoback.proyectoBack.entitys.Watcher;
 import com.proyectoback.proyectoBack.repositories.ChallengeRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
