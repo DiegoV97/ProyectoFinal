@@ -2,7 +2,6 @@ package com.proyectoback.proyectoBack.Dto;
 
 import com.proyectoback.proyectoBack.entitys.User;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,5 +10,4 @@ public class UserDto extends User {
 	
 	private String rol;
 	
-
 }
