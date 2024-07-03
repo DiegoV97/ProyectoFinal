@@ -1,9 +1,5 @@
 package com.proyectoback.proyectoBack.entitys;
 
-
-
-
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyectoback.proyectoBack.Dto.UserDto;
 
@@ -11,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
+
 @Entity
 
 public class Player extends User{

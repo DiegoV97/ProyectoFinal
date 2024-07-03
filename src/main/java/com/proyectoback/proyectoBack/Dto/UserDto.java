@@ -6,18 +6,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter @Data
+@Getter @Setter
 public class UserDto extends User {
 	
 	private String rol;
-
-	public int getRol() {
-		return rol;
-	}
-
-	public void setRol(int rol) {
-		this.rol = rol;
-	}
 	
 
 }
