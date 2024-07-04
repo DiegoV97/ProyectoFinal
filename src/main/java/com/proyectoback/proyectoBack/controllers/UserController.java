@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -85,6 +86,13 @@ public class UserController {
 	@GetMapping("/{username}")
 	public User selectUserById(@PathVariable("username")String username) {
 		return userRepository.findByUsername(username);
+	}
+	
+	@GetMapping("/ranking")
+	public List<User> orderByPoints(){
+		System.out.println("111111111111");
+		List<User> points = userRepository.orderByPoints();
+		return points;
 	}
 
 	//@PostMapping("/upload")
