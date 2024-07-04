@@ -1,14 +1,8 @@
 package com.proyectoback.proyectoBack.entitys;
 
-
-
-
-
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyectoback.proyectoBack.Dto.UserDto;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
@@ -20,6 +14,7 @@ public class Player extends User{
  
 
 private int points;
+private int challengeCompleted;
 
  @OneToMany (mappedBy = "player")
  @JsonBackReference
@@ -49,6 +44,14 @@ public List<Challenge> getChallenge() {
 
 public void setChallenge(List<Challenge> challenge) {
 	this.challenge = challenge;
+}
+
+public int getChallengeCompleted() {
+	return challengeCompleted;
+}
+
+public void setChallengeCompleted(int challengeCompleted) {
+	this.challengeCompleted = challengeCompleted + this.challengeCompleted;
 }
 
 

@@ -12,12 +12,15 @@ import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
-@Getter @Setter
+
 public class Watcher extends User{
+	private int proposedChallenge;
 	
 	 @OneToMany (mappedBy = "watcher")
 	 @JsonBackReference
 	 private List<Challenge> challenge;
+	 
+	 
 	 
 	 
 	 public Watcher(UserDto user) {
@@ -29,6 +32,26 @@ public class Watcher extends User{
 
 	public Watcher() {
 		super();
+	}
+
+
+	public int getProposedChallenge() {
+		return proposedChallenge;
+	}
+
+
+	public void setProposedChallenge(int proposedChallenge) {
+		this.proposedChallenge = proposedChallenge + this.proposedChallenge;
+	}
+
+
+	public List<Challenge> getChallenge() {
+		return challenge;
+	}
+
+
+	public void setChallenge(List<Challenge> challenge) {
+		this.challenge = challenge;
 	}
 	 
 	 
