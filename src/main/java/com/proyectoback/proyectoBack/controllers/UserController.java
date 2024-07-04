@@ -90,7 +90,6 @@ public class UserController {
 	
 	@GetMapping("/ranking")
 	public List<User> orderByPoints(){
-		System.out.println("111111111111");
 		List<User> points = userRepository.orderByPoints();
 		return points;
 	}
