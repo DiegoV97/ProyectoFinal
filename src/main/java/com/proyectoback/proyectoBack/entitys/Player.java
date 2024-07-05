@@ -18,7 +18,7 @@ import jakarta.persistence.OneToMany;
 
 public class Player extends User{
  
-
+private int challengeCompleted;
 private int points;
 
  @OneToMany (mappedBy = "player")
@@ -49,6 +49,15 @@ public List<Challenge> getChallenge() {
 
 public void setChallenge(List<Challenge> challenge) {
 	this.challenge = challenge;
+}
+
+public int getChallengeCompleted() {
+	return challengeCompleted;
+}
+
+
+public void setChallengeCompleted(int challengeCompleted) {
+	this.challengeCompleted = challengeCompleted + this.challengeCompleted;
 }
 
 
