@@ -86,7 +86,9 @@ public class ChallengeController {
         challengeRepository.deleteById(id);
     }
     
-    @PostMapping("/{id}/upload")
+
+	@PostMapping("/{id}/upload")
+
     public String uploadFile(@PathVariable int id,@RequestParam("player") String username,@RequestParam("watcher")String usernamewatcher, @RequestParam("file") MultipartFile file, @RequestParam("points") int points) {
         if (file.isEmpty()) {
             return "Archivo vacío";
