@@ -1,7 +1,7 @@
 package com.proyectoback.proyectoBack.entitys;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,21 +16,27 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(columnDefinition = "TEXT")
     private String description;
+
     private int points;
+
     private String videoUrl;
 
     @ManyToOne
     @JoinColumn(name = "watcher_id")
+    @JsonManagedReference
     private Watcher watcher;
 
     @ManyToOne
     @JoinColumn(name = "player_id")
+    @JsonManagedReference
     private Player player;
 }
+
+
