@@ -48,13 +48,6 @@ public class ChallengeController {
         return challengeRepository.findById(id).orElse(null);
     }
 
-//    @PostMapping
-//    public Challenge createChallenge(@RequestBody Challenge challenge) {
-//    	Watcher watcher = watcherRepository.findById(challenge.getWatcher().getId())
-//    	        .orElseThrow(() -> new RuntimeException("Watcher not found"));
-//    	challenge.setWatcher(watcher);
-//        return challengeRepository.save(challenge);
-//    }
     
     @PostMapping
     public Challenge createChallenge(@RequestParam("description") String description, @RequestParam("points") int points, @RequestParam("watcher") String username_watcher) {
@@ -102,10 +95,6 @@ public class ChallengeController {
         }
 
         try {
-            // Generar un nombre de archivo único
-//            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-//            Path path = Paths.get(uploadDir + File.separator + fileName);
-//            Files.copy(file.getInputStream(), path);
         	
         	Map result = cloudinaryService.uploadVideo(file);
 
