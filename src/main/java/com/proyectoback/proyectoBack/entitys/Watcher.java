@@ -3,8 +3,12 @@ package com.proyectoback.proyectoBack.entitys;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.proyectoback.proyectoBack.Dto.UserDto;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
@@ -16,9 +20,10 @@ import lombok.Setter;
 public class Watcher extends User{
 	
 	private int proposedChallenge;
-	 @OneToMany (mappedBy = "watcher")
-	 @JsonBackReference
-	 private List<Challenge> challenge;
+	
+	  @OneToMany(mappedBy = "watcher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	  @JsonBackReference
+	    private List<Challenge> challenges;
 	 
 	 
 	 public Watcher(UserDto user) {
