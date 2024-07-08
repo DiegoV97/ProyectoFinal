@@ -79,8 +79,10 @@ public class ChallengeController {
         challengeRepository.deleteById(id);
     }
     
+
 	@PostMapping("/{id}/upload")
-    public String uploadFile(@PathVariable int id,@RequestParam("player") String username, @RequestParam("file") MultipartFile file, @RequestParam("points") int points) {
+
+    public String uploadFile(@PathVariable int id,@RequestParam("player") String username,@RequestParam("watcher")String usernamewatcher, @RequestParam("file") MultipartFile file, @RequestParam("points") int points) {
         if (file.isEmpty()) {
             return "Archivo vacío";
         }
@@ -93,14 +95,22 @@ public class ChallengeController {
         if (player == null) {
             return "Player no encontrado";
         }
+        Watcher watcher = watcherRepository.findByUsername(usernamewatcher);
+        if ( watcher == null) {
+        	return "Watcher no encontrado";
+        }
 
         try {
         	
         	Map result = cloudinaryService.uploadVideo(file);
 
         	player.setPoints(points);
+        	player.setChallengeCompleted(1);
+        	watcher.setProposedChallenge(1);
+        	
         	challenge.setVideoUrl((String)result.get("url"));     
             challengeRepository.save(challenge);
+            
 
             return "Archivo subido exitosamente: " + challenge.getVideoUrl();
         } catch (IOException e) {
