@@ -3,8 +3,11 @@ package com.proyectoback.proyectoBack.controllers;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -129,5 +132,18 @@ public class ChallengeController {
             return "Fallo al subir el archivo";
         }
     }
-}
+	 @PostMapping("/{id}/like")
+	    public ResponseEntity<String> likeChallenge(@PathVariable int id) {
+	        Optional<Challenge> optionalChallenge = challengeRepository.findById(id);
+	        if (optionalChallenge.isPresent()) {
+	            Challenge challenge = optionalChallenge.get();
+	            challenge.setLikes(challenge.getLikes() + 1);
+	            challengeRepository.save(challenge);
+	            return ResponseEntity.ok("Me gusta añadido.");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("Challenge no encontrado.");
+	        }
+	    }
+	}
+
 

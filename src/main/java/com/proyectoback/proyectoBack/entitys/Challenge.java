@@ -23,6 +23,7 @@ public class Challenge {
     private String description;
     private int points;
     private String videoUrl;
+    private int likes;
     
     @ManyToOne
     @JsonManagedReference
