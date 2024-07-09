@@ -50,18 +50,20 @@ public class CloudinaryService {
 	}
 	
 	public Map uploadVideo(MultipartFile multipartFile) throws IOException {
-		File file = convert(multipartFile);
-		Map result = cloudinary.uploader().upload(file, 
-			    ObjectUtils.asMap("resource_type", "video",
-			    	    "public_id", "dog_closeup",
-			    	    "eager", Arrays.asList(
-			    	        new EagerTransformation().width(300).height(300).crop("pad").audioCodec("none"),
-			    	        new EagerTransformation().width(160).height(100).crop("crop").gravity("south").audioCodec("none")),
-			    	    "eager_async", true,
-			    	    "eager_notification_url", "https://mysite.example.com/notify_endpoint"));
-		file.delete();
-		return result;
+	    File file = convert(multipartFile);
+	    String uniquePublicId = "video_" + System.currentTimeMillis();  // Genera un timestamp único para cada video
+	    Map result = cloudinary.uploader().upload(file, 
+	            ObjectUtils.asMap("resource_type", "video",
+	                    "public_id", uniquePublicId,  // Usa el timestamp único como public_id
+	                    "eager", Arrays.asList(
+	                        new EagerTransformation().width(300).height(300).crop("pad").audioCodec("none"),
+	                        new EagerTransformation().width(160).height(100).crop("crop").gravity("south").audioCodec("none")),
+	                    "eager_async", true,
+	                    "eager_notification_url", "https://mysite.example.com/notify_endpoint"));
+	    file.delete();
+	    return result;
 	}
+
 
 	
 
