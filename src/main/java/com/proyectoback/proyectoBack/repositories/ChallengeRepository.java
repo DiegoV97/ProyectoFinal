@@ -9,10 +9,12 @@ import com.proyectoback.proyectoBack.entitys.Challenge;
 
 public interface ChallengeRepository extends CrudRepository<Challenge, Integer>{
 	
+
 	List<Challenge> findAll();
 	
 	@Query(value = "SELECT  * FROM challenge ORDER BY id DESC", nativeQuery = true)
 	List<Challenge> findAllByOrderByDesc();
+
 
 }
 

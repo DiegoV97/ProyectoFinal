@@ -3,11 +3,8 @@ package com.proyectoback.proyectoBack.controllers;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +24,7 @@ import com.proyectoback.proyectoBack.repositories.ChallengeRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.VideoRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
+import com.proyectoback.proyectoBack.services.ChallengeService;
 import com.proyectoback.proyectoBack.services.CloudinaryService;
 
 
@@ -35,6 +33,9 @@ import com.proyectoback.proyectoBack.services.CloudinaryService;
 public class ChallengeController {
     
 	@Autowired
+    private ChallengeService challengeService;
+	
+	@Autowired
     private ChallengeRepository challengeRepository;
 	
 	@Autowired WatcherRepository watcherRepository;
@@ -42,12 +43,19 @@ public class ChallengeController {
 	@Autowired PlayerRepository playerRepository;
 	
 	@Autowired CloudinaryService cloudinaryService;
-	
-	@Autowired VideoRepository videoRepository;
 
+	@Autowired VideoRepository videoRepository;
+	
+    @GetMapping
+    public List<Challenge> getHomeChallenges() {
+        return challengeService.getAllChallengesOrderedByDate();
+
+    }
     @GetMapping
     public List<Challenge> getAllChallenge() {
+
         return challengeRepository.findAllByOrderByDesc();
+
     }
 
     @GetMapping("/{id}")
@@ -65,13 +73,17 @@ public class ChallengeController {
     
     @PostMapping
     public Challenge createChallenge(@RequestParam("description") String description, @RequestParam("points") int points, @RequestParam("watcher") String username_watcher) {
+
     	Watcher watcher = watcherRepository.findByUsername(username_watcher);
-    	        
+
     	Challenge challenge = new Challenge();
     	challenge.setDescription(description);
     	challenge.setPoints(points);
     	challenge.setWatcher(watcher);
-        return challengeRepository.save(challenge);
+
+    	
+    	return challengeRepository.save(challenge);
+          
     }
 
     @PutMapping("/{id}")
@@ -92,6 +104,10 @@ public class ChallengeController {
         challengeRepository.deleteById(id);
     }
     
+	@PostMapping("/{id}/upload")
+
+    public String uploadFile(@PathVariable int id,@RequestParam("player") String username,@RequestParam("watcher")String usernamewatcher, @RequestParam("file") MultipartFile file, @RequestParam("points") int points) 
+
 
 	@PostMapping("/upload")
     public String uploadFile(
@@ -101,6 +117,7 @@ public class ChallengeController {
     		@RequestParam("points") int points, 
     		@RequestParam("challenge") int idchallenge ) {
 		
+
         if (file.isEmpty()) {
             return "Archivo vacío";
         }
@@ -117,6 +134,7 @@ public class ChallengeController {
         if ( watcher == null) {
         	return "Watcher no encontrado";
         }
+
         
 
         try {
@@ -131,6 +149,7 @@ public class ChallengeController {
         	player.setChallengeCompleted(1);
         	watcher.setProposedChallenge(1);
         	
+
         	Video video = new Video();
         	
         	video.setPlayer(player);
@@ -145,7 +164,7 @@ public class ChallengeController {
             return "Fallo al subir el archivo";
         }
     }
-	 
 }
+	
 
 
