@@ -53,7 +53,9 @@ public class ChallengeController {
     }
     @GetMapping
     public List<Challenge> getAllChallenge() {
-        return (List<Challenge>) challengeRepository.findAll();
+
+        return challengeRepository.findAllByOrderByDesc();
+
     }
 
     @GetMapping("/{id}")
@@ -90,7 +92,6 @@ public class ChallengeController {
     		String username = requestBody.get("username");
         Challenge challenge = challengeRepository.findById(id).orElse(null);
        
-    		System.out.println(username);
     		Player player = playerRepository.findByUsername(username);
     	 	
         	challenge.setPlayer(player);
@@ -107,9 +108,16 @@ public class ChallengeController {
 
     public String uploadFile(@PathVariable int id,@RequestParam("player") String username,@RequestParam("watcher")String usernamewatcher, @RequestParam("file") MultipartFile file, @RequestParam("points") int points) 
 
-		@PostMapping("/upload")
 
-    public String uploadFile(@RequestParam("player") String username,@RequestParam("watcher")String usernamewatcher, @RequestParam("file") MultipartFile file, @RequestParam("points") int points, @RequestParam("challenge") int idchallenge ) {
+	@PostMapping("/upload")
+    public String uploadFile(
+    		@RequestParam("player") String username,
+    		@RequestParam("watcher")String usernamewatcher, 
+    		@RequestParam("file") MultipartFile file, 
+    		@RequestParam("points") int points, 
+    		@RequestParam("challenge") int idchallenge ) {
+		
+
         if (file.isEmpty()) {
             return "Archivo vacío";
         }
@@ -127,7 +135,6 @@ public class ChallengeController {
         	return "Watcher no encontrado";
         }
 
-        Video video = new Video();
         
 
         try {
@@ -142,16 +149,13 @@ public class ChallengeController {
         	player.setChallengeCompleted(1);
         	watcher.setProposedChallenge(1);
         	
-        	challenge.setVideoUrl((String)result.get("url"));     
-            challengeRepository.save(challenge);
-            
 
-            return "Archivo subido exitosamente: " + challenge.getVideoUrl();
-
-            video.setPlayer(player);
+        	Video video = new Video();
+        	
+        	video.setPlayer(player);
         	video.setVideoUrl((String)result.get("url"));
         	video.setChallenge(challenge);
-            videoRepository.save(video);
+        videoRepository.save(video);
             
 
             return "Archivo subido exitosamente: " + video.getVideoUrl();

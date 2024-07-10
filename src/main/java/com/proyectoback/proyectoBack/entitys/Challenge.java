@@ -2,10 +2,9 @@ package com.proyectoback.proyectoBack.entitys;
 
 
 
-import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -33,8 +32,6 @@ public class Challenge {
     private String description;
 
     private int points;
-
-    private String videoUrl;
 
     @ManyToOne
     @JoinColumn(name = "watcher_id")
