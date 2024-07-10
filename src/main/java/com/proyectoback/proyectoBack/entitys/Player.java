@@ -1,8 +1,12 @@
 package com.proyectoback.proyectoBack.entitys;
-
 import java.util.List;
 
+
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 import com.proyectoback.proyectoBack.Dto.UserDto;
 
@@ -21,6 +25,10 @@ public class Player extends User {
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Challenge> challenges;
+    
+    @JsonManagedReference
+    @OneToMany(mappedBy = "player",fetch = FetchType.LAZY)
+    private List <Video> videos;
 
     public Player(UserDto user) {
         this.username = user.getUsername();
