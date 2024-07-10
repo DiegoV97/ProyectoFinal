@@ -24,103 +24,118 @@ import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
 import com.proyectoback.proyectoBack.services.CloudinaryService;
 
-
 @RestController
 @RequestMapping("/challenge")
 public class ChallengeController {
-    
+
 	@Autowired
-    private ChallengeRepository challengeRepository;
-	
-	@Autowired WatcherRepository watcherRepository;
-	
-	@Autowired PlayerRepository playerRepository;
-	
-	@Autowired CloudinaryService cloudinaryService;
+	private ChallengeRepository challengeRepository;
 
-    @GetMapping
-    public List<Challenge> getAllChallenge() {
-        return challengeRepository.findAll();
-    }
+	@Autowired
+	WatcherRepository watcherRepository;
 
-    @GetMapping("/{id}")
-    public Challenge getChallengeById(@PathVariable int id) {
-        return challengeRepository.findById(id).orElse(null);
-    }
+	@Autowired
+	PlayerRepository playerRepository;
 
-    
-    @PostMapping
-    public Challenge createChallenge(@RequestParam("description") String description, @RequestParam("points") int points, @RequestParam("watcher") String username_watcher) {
-    	Watcher watcher = watcherRepository.findByUsername(username_watcher);
-    	        
-    	Challenge challenge = new Challenge();
-    	challenge.setDescription(description);
-    	challenge.setPoints(points);
-    	challenge.setWatcher(watcher);
-        return challengeRepository.save(challenge);
-    }
+	@Autowired
+	CloudinaryService cloudinaryService;
 
-    @PutMapping("/{id}")
-    public Challenge updateChallenge(@PathVariable int id, @RequestBody Map<String, String> requestBody) {
-        String username = requestBody.get("username");
-        Challenge challenge = challengeRepository.findById(id).orElse(null);
-        
-        if (username == null || username.isEmpty()) {
-            // Cancel the challenge by setting player to null
-            challenge.setPlayer(null);
-        } else {
-            // Accept the challenge
-            Player player = playerRepository.findByUsername(username);
-            challenge.setPlayer(player);
-        }
+	@GetMapping
+	public List<Challenge> getAllChallenge() {
+		return challengeRepository.findAll();
+	}
 
-        return challengeRepository.save(challenge);
-    }
+	@GetMapping("/{id}")
+	public Challenge getChallengeById(@PathVariable int id) {
+		return challengeRepository.findById(id).orElse(null);
+	}
 
+	@PostMapping
+	public Challenge createChallenge(@RequestParam("description") String description,
+			@RequestParam("points") int points, @RequestParam("watcher") String username_watcher) {
+		Watcher watcher = watcherRepository.findByUsername(username_watcher);
 
-    @DeleteMapping("/{id}")
-    public void deleteChallenge(@PathVariable int id) {
-        challengeRepository.deleteById(id);
-    }
-    
+		Challenge challenge = new Challenge();
+		challenge.setDescription(description);
+		challenge.setPoints(points);
+		challenge.setWatcher(watcher);
+		return challengeRepository.save(challenge);
+	}
+
+//	 @PutMapping("/{id}")
+//	 public Challenge updateChallenge(@PathVariable int id,@RequestBody Map<String, String> requestBody ) {
+//	
+//	 String username = requestBody.get("username");
+//	 Challenge challenge = challengeRepository.findById(id).orElse(null);
+//	
+//	 System.out.println(username);
+//	 Player player = playerRepository.findByUsername(username);
+//	
+//	 challenge.setPlayer(player);
+//	 return challengeRepository.save(challenge);
+//	
+//	 }
+
+	@PutMapping("/{id}")
+	public Challenge updateChallenge(@PathVariable int id, @RequestBody Map<String, String> requestBody) {
+		
+		String username = requestBody.get("username");
+		Challenge challenge = challengeRepository.findById(id).orElse(null);
+
+		if (username == null || username.isEmpty()) {
+			// Cancel the challenge by setting player to null
+			challenge.setPlayer(null);
+		} else {
+			// Accept the challenge
+			Player player = playerRepository.findByUsername(username);
+			challenge.setPlayer(player);
+		}
+
+		return challengeRepository.save(challenge);
+	}
+
+	@DeleteMapping("/{id}")
+	public void deleteChallenge(@PathVariable int id) {
+		challengeRepository.deleteById(id);
+	}
 
 	@PostMapping("/{id}/upload")
 
-    public String uploadFile(@PathVariable int id,@RequestParam("player") String username,@RequestParam("watcher")String usernamewatcher, @RequestParam("file") MultipartFile file, @RequestParam("points") int points) {
-        if (file.isEmpty()) {
-            return "Archivo vacío";
-        }
+	public String uploadFile(@PathVariable int id, @RequestParam("player") String username,
+			@RequestParam("watcher") String usernamewatcher, @RequestParam("file") MultipartFile file,
+			@RequestParam("points") int points) {
+		if (file.isEmpty()) {
+			return "Archivo vacío";
+		}
 
-        Challenge challenge = challengeRepository.findById(id).get();
-        if (challenge == null) {
-            return "Challenge no encontrado";
-        }
-        Player player = playerRepository.findByUsername(username);
-        if (player == null) {
-            return "Player no encontrado";
-        }
-        Watcher watcher = watcherRepository.findByUsername(usernamewatcher);
-        if ( watcher == null) {
-        	return "Watcher no encontrado";
-        }
+		Challenge challenge = challengeRepository.findById(id).get();
+		if (challenge == null) {
+			return "Challenge no encontrado";
+		}
+		Player player = playerRepository.findByUsername(username);
+		if (player == null) {
+			return "Player no encontrado";
+		}
+		Watcher watcher = watcherRepository.findByUsername(usernamewatcher);
+		if (watcher == null) {
+			return "Watcher no encontrado";
+		}
 
-        try {
-        	
-        	Map result = cloudinaryService.uploadVideo(file);
+		try {
 
-        	player.setPoints(points);
-        	player.setChallengeCompleted(1);
-        	watcher.setProposedChallenge(1);
-        	
-        	challenge.setVideoUrl((String)result.get("url"));     
-            challengeRepository.save(challenge);
-            
+			Map result = cloudinaryService.uploadVideo(file);
 
-            return "Archivo subido exitosamente: " + challenge.getVideoUrl();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Fallo al subir el archivo";
-        }
-    }
+			player.setPoints(points);
+			player.setChallengeCompleted(1);
+			watcher.setProposedChallenge(1);
+
+			challenge.setVideoUrl((String) result.get("url"));
+			challengeRepository.save(challenge);
+
+			return "Archivo subido exitosamente: " + challenge.getVideoUrl();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Fallo al subir el archivo";
+		}
+	}
 }
-
