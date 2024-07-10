@@ -7,7 +7,7 @@ import com.proyectoback.proyectoBack.entitys.Challenge;
 
 public interface ChallengeRepository extends CrudRepository<Challenge, Integer>{
 	
-	@Query(value = "SELECT * FROM challenge ORDER BY created_date DESC", nativeQuery = true)
+	@Query(value = "SELECT * FROM challenge ORDER BY id DESC", nativeQuery = true)
 	List<Challenge> findAllByOrderByCreatedDateDesc();
 
 }

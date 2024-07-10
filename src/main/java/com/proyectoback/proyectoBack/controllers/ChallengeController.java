@@ -23,12 +23,16 @@ import com.proyectoback.proyectoBack.repositories.ChallengeRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
 import com.proyectoback.proyectoBack.services.CloudinaryService;
+import com.proyectoback.proyectoBack.services.ChallengeService;
 
 
 @RestController
 @RequestMapping("/challenge")
 public class ChallengeController {
     
+	@Autowired
+    private ChallengeService challengeService;
+	
 	@Autowired
     private ChallengeRepository challengeRepository;
 	
@@ -40,7 +44,7 @@ public class ChallengeController {
 
     @GetMapping
     public List<Challenge> getHomeChallenges() {
-        return challengeRepository.findAllByOrderByCreatedDateDesc();
+        return challengeService.getAllChallengesOrderedByDate();
     }
 
     @GetMapping("/{id}")
