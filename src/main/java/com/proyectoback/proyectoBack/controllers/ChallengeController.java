@@ -61,18 +61,22 @@ public class ChallengeController {
     }
 
     @PutMapping("/{id}")
-    public Challenge updateChallenge(@PathVariable int id,@RequestBody Map<String, String> requestBody ) {
-    	
-    		String username = requestBody.get("username");
+    public Challenge updateChallenge(@PathVariable int id, @RequestBody Map<String, String> requestBody) {
+        String username = requestBody.get("username");
         Challenge challenge = challengeRepository.findById(id).orElse(null);
-       
-    		System.out.println(username);
-    		Player player = playerRepository.findByUsername(username);
-    	 	
-        	challenge.setPlayer(player);
-    		return challengeRepository.save(challenge);
-     
+        
+        if (username == null || username.isEmpty()) {
+            // Cancel the challenge by setting player to null
+            challenge.setPlayer(null);
+        } else {
+            // Accept the challenge
+            Player player = playerRepository.findByUsername(username);
+            challenge.setPlayer(player);
+        }
+
+        return challengeRepository.save(challenge);
     }
+
 
     @DeleteMapping("/{id}")
     public void deleteChallenge(@PathVariable int id) {
