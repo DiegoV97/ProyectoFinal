@@ -21,9 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.proyectoback.proyectoBack.entitys.Challenge;
 import com.proyectoback.proyectoBack.entitys.Player;
+import com.proyectoback.proyectoBack.entitys.Video;
 import com.proyectoback.proyectoBack.entitys.Watcher;
 import com.proyectoback.proyectoBack.repositories.ChallengeRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
+import com.proyectoback.proyectoBack.repositories.VideoRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
 import com.proyectoback.proyectoBack.services.CloudinaryService;
 
@@ -40,6 +42,8 @@ public class ChallengeController {
 	@Autowired PlayerRepository playerRepository;
 	
 	@Autowired CloudinaryService cloudinaryService;
+	
+	@Autowired VideoRepository videoRepository;
 
     @GetMapping
     public List<Challenge> getAllChallenge() {
@@ -90,14 +94,14 @@ public class ChallengeController {
     }
     
 
-	@PostMapping("/{id}/upload")
+	@PostMapping("/upload")
 
-    public String uploadFile(@PathVariable int id,@RequestParam("player") String username,@RequestParam("watcher")String usernamewatcher, @RequestParam("file") MultipartFile file, @RequestParam("points") int points) {
+    public String uploadFile(@RequestParam("player") String username,@RequestParam("watcher")String usernamewatcher, @RequestParam("file") MultipartFile file, @RequestParam("points") int points, @RequestParam("challenge") int idchallenge ) {
         if (file.isEmpty()) {
             return "Archivo vacío";
         }
 
-        Challenge challenge = challengeRepository.findById(id).get();
+        Challenge challenge = challengeRepository.findById(idchallenge).get();
         if (challenge == null) {
             return "Challenge no encontrado";
         }
@@ -109,6 +113,8 @@ public class ChallengeController {
         if ( watcher == null) {
         	return "Watcher no encontrado";
         }
+        Video video = new Video();
+        
 
         try {
             // Generar un nombre de archivo único
@@ -121,29 +127,19 @@ public class ChallengeController {
         	player.setPoints(points);
         	player.setChallengeCompleted(1);
         	watcher.setProposedChallenge(1);
-        	
-        	challenge.setVideoUrl((String)result.get("url"));     
-            challengeRepository.save(challenge);
+        	video.setPlayer(player);
+        	video.setVideoUrl((String)result.get("url"));
+        	video.setChallenge(challenge);
+            videoRepository.save(video);
             
 
-            return "Archivo subido exitosamente: " + challenge.getVideoUrl();
+            return "Archivo subido exitosamente: " + video.getVideoUrl();
         } catch (IOException e) {
             e.printStackTrace();
             return "Fallo al subir el archivo";
         }
     }
-	 @PostMapping("/{id}/like")
-	    public ResponseEntity<String> likeChallenge(@PathVariable int id) {
-	        Optional<Challenge> optionalChallenge = challengeRepository.findById(id);
-	        if (optionalChallenge.isPresent()) {
-	            Challenge challenge = optionalChallenge.get();
-	            challenge.setLikes(challenge.getLikes() + 1);
-	            challengeRepository.save(challenge);
-	            return ResponseEntity.ok("Me gusta añadido.");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("Challenge no encontrado.");
-	        }
-	    }
-	}
+	 
+}
 
 
