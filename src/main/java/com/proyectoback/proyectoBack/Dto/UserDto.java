@@ -10,4 +10,9 @@ import lombok.Setter;
 public class UserDto extends User {
 	
 	private String rol;
+<<<<<<< HEAD
 }
+=======
+	
+}
+>>>>>>> 0ed99e71df9ff8158330b7bc5a81d31c816dbe97
