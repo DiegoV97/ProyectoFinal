@@ -23,12 +23,16 @@ import com.proyectoback.proyectoBack.repositories.ChallengeRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
 import com.proyectoback.proyectoBack.services.CloudinaryService;
+import com.proyectoback.proyectoBack.services.ChallengeService;
 
 
 @RestController
 @RequestMapping("/challenge")
 public class ChallengeController {
     
+	@Autowired
+    private ChallengeService challengeService;
+	
 	@Autowired
     private ChallengeRepository challengeRepository;
 	
@@ -39,8 +43,8 @@ public class ChallengeController {
 	@Autowired CloudinaryService cloudinaryService;
 
     @GetMapping
-    public List<Challenge> getAllChallenge() {
-        return challengeRepository.findAll();
+    public List<Challenge> getHomeChallenges() {
+        return challengeService.getAllChallengesOrderedByDate();
     }
 
     @GetMapping("/{id}")
@@ -64,10 +68,8 @@ public class ChallengeController {
     	challenge.setPoints(points);
     	challenge.setWatcher(watcher);
     	
-    	System.out.println(watcher.getId()+"11111111-"+ challenge.getId());
-         challengeRepository.save(challenge);
-         System.out.println("aaaaaaaaaaaa");
-         return null;
+    	return challengeRepository.save(challenge);
+          
     }
 
     @PutMapping("/{id}")
