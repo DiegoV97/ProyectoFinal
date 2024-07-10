@@ -1,12 +1,16 @@
 package com.proyectoback.proyectoBack.entitys;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
@@ -20,7 +24,9 @@ public class Video {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	private String videoUrl;
-	private int likes;
+	@ManyToMany
+	@JsonManagedReference
+	private List<User> likes;
 	
 	@OneToOne
     @JoinColumn(name = "challenge_id")

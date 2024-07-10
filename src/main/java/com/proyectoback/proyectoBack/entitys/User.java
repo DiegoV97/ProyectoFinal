@@ -43,6 +43,8 @@ public class User implements UserDetails{
 	private boolean credentialsNonExpired = true;
 	private boolean enabled= true;
 	
+	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// Devolvemos un ArrayList vacío porque nuestra app no tiene roles
