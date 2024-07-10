@@ -1,6 +1,7 @@
 package com.proyectoback.proyectoBack.controllers;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.proyectoback.proyectoBack.entitys.Challenge;
 import com.proyectoback.proyectoBack.entitys.Player;
+import com.proyectoback.proyectoBack.entitys.Video;
 import com.proyectoback.proyectoBack.entitys.Watcher;
 import com.proyectoback.proyectoBack.repositories.ChallengeRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
+import com.proyectoback.proyectoBack.repositories.VideoRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
 import com.proyectoback.proyectoBack.services.CloudinaryService;
 
@@ -33,6 +36,15 @@ public class ChallengeController {
 
 	@Autowired
 	WatcherRepository watcherRepository;
+
+	@Autowired
+	VideoRepository videoRepository;
+
+	@GetMapping
+	public List<Challenge> getChallenges() {
+		return challengeRepository.findAllByOrderByDesc();
+
+	}
 
 	@Autowired
 	PlayerRepository playerRepository;
@@ -78,7 +90,7 @@ public class ChallengeController {
 
 	@PutMapping("/{id}")
 	public Challenge updateChallenge(@PathVariable int id, @RequestBody Map<String, String> requestBody) {
-		
+
 		String username = requestBody.get("username");
 		Challenge challenge = challengeRepository.findById(id).orElse(null);
 
@@ -138,4 +150,5 @@ public class ChallengeController {
 			return "Fallo al subir el archivo";
 		}
 	}
+
 }
