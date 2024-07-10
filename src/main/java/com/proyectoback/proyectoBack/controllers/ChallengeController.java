@@ -1,6 +1,7 @@
 package com.proyectoback.proyectoBack.controllers;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,6 @@ import com.proyectoback.proyectoBack.repositories.ChallengeRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.VideoRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
-import com.proyectoback.proyectoBack.services.ChallengeService;
 import com.proyectoback.proyectoBack.services.CloudinaryService;
 
 
@@ -32,9 +32,6 @@ import com.proyectoback.proyectoBack.services.CloudinaryService;
 @RequestMapping("/challenge")
 public class ChallengeController {
     
-	@Autowired
-    private ChallengeService challengeService;
-	
 	@Autowired
     private ChallengeRepository challengeRepository;
 	
@@ -47,13 +44,7 @@ public class ChallengeController {
 	@Autowired VideoRepository videoRepository;
 	
     @GetMapping
-    public List<Challenge> getHomeChallenges() {
-        return challengeService.getAllChallengesOrderedByDate();
-
-    }
-    @GetMapping
-    public List<Challenge> getAllChallenge() {
-
+    public List<Challenge> getChallenges() {
         return challengeRepository.findAllByOrderByDesc();
 
     }
@@ -104,11 +95,6 @@ public class ChallengeController {
         challengeRepository.deleteById(id);
     }
     
-	@PostMapping("/{id}/upload")
-
-    public String uploadFile(@PathVariable int id,@RequestParam("player") String username,@RequestParam("watcher")String usernamewatcher, @RequestParam("file") MultipartFile file, @RequestParam("points") int points) 
-
-
 	@PostMapping("/upload")
     public String uploadFile(
     		@RequestParam("player") String username,
