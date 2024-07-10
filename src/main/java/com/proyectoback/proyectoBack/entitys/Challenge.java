@@ -4,7 +4,6 @@ package com.proyectoback.proyectoBack.entitys;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,6 +27,7 @@ public class Challenge {
     private String description;
 
     private int points;
+
 
     @ManyToOne
     @JoinColumn(name = "watcher_id")
