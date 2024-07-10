@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.proyectoback.proyectoBack.entitys.Moderator;
 import com.proyectoback.proyectoBack.entitys.Player;
 import com.proyectoback.proyectoBack.entitys.User;
 import com.proyectoback.proyectoBack.entitys.Watcher;
@@ -26,6 +27,8 @@ public class BasicAuthController {
 			return ResponseEntity.ok().body("{\"rol\":\"watcher\"}");
 		} else if (user instanceof Player == true) {
 			return ResponseEntity.ok().body("{\"rol\":\"player\"}");
+		} else if (user instanceof Moderator == true) {
+			return ResponseEntity.ok().body("{\"rol\":\"moderador\"}");
 		}
 		return null;
 	}
