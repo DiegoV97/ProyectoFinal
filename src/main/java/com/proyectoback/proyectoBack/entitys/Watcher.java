@@ -13,6 +13,9 @@ import lombok.Setter;
 
 
 @Entity
+
+@Getter @Setter
+
 public class Watcher extends User{
 	
 	private int proposedChallenge;
