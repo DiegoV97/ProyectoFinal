@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.proyectoback.proyectoBack.Dto.UserDto;
+import com.proyectoback.proyectoBack.entitys.Moderator;
 import com.proyectoback.proyectoBack.entitys.Player;
 import com.proyectoback.proyectoBack.entitys.User;
 import com.proyectoback.proyectoBack.entitys.Watcher;
+import com.proyectoback.proyectoBack.repositories.ModeratorRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.UserRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
@@ -32,15 +34,16 @@ import com.proyectoback.proyectoBack.services.CloudinaryService;
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
-	
 
-	
+
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
 	private PlayerRepository playerRepository;
 	@Autowired
 	private WatcherRepository watcherRepository;
+	@Autowired
+	private ModeratorRepository moderatorRepository;
 	 @Autowired
 	 private CloudinaryService cloudinaryService;
 
@@ -58,6 +61,10 @@ public class UserController {
 		} else if (user.getRol().equals("watcher")) {
 			Watcher w = new Watcher(user);
 			watcherRepository.save(w);
+			
+		} else if (user.getRol().equals("moderador")) {
+			Moderator m = new Moderator(user);
+			moderatorRepository.save(m);
 		}
 	}
 

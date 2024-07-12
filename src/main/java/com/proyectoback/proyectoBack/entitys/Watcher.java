@@ -1,25 +1,20 @@
 package com.proyectoback.proyectoBack.entitys;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.proyectoback.proyectoBack.Dto.UserDto;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import lombok.Getter;
-import lombok.Setter;
+
 @Entity
-@Getter @Setter
 public class Watcher extends User{
 	
 	private int proposedChallenge;
 	
-	 @OneToMany(mappedBy = "watcher", fetch = FetchType.LAZY)
+	  @OneToMany(mappedBy = "watcher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	  @JsonBackReference
 	    private List<Challenge> challenges;
 	 
 	 
@@ -28,6 +23,16 @@ public class Watcher extends User{
 			this.email = user.getEmail();
 			this.password = user.getPassword();		
 			}
+
+
+	public List<Challenge> getChallenges() {
+		return challenges;
+	}
+
+
+	public void setChallenges(List<Challenge> challenges) {
+		this.challenges = challenges;
+	}
 
 
 	public Watcher() {

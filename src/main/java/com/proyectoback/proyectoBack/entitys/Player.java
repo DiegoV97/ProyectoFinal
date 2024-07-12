@@ -1,11 +1,14 @@
 package com.proyectoback.proyectoBack.entitys;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import com.proyectoback.proyectoBack.Dto.UserDto;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
@@ -17,11 +20,13 @@ public class Player extends User {
     private int challengeCompleted;
     private int points;
 
-    @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Challenge> challenges;
     
-    @JsonManagedReference
+    
     @OneToMany(mappedBy = "player",fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List <Video> videos;
 
     public Player(UserDto user) {

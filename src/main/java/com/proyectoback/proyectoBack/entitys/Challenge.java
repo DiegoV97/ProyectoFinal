@@ -1,10 +1,9 @@
 package com.proyectoback.proyectoBack.entitys;
 
-import java.util.List;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,22 +23,27 @@ public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
-    
+
+
     @Column(columnDefinition = "TEXT")
     private String description;
-    private int points;
 
-    
+    private int points;
 
     @ManyToOne
     @JoinColumn(name = "watcher_id")
+    @JsonManagedReference
     private Watcher watcher;
 
     @ManyToOne
     @JoinColumn(name = "player_id")
+    @JsonManagedReference
     private Player player;
-    
-    @OneToOne(mappedBy = "challenge", cascade = CascadeType.ALL)
+
+    @OneToOne(mappedBy = "challenge")
+    @JsonManagedReference
     private Video videos;
+
 }
+
+
