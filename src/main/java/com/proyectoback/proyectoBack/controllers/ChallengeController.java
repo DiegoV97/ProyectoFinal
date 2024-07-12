@@ -51,7 +51,8 @@ public class ChallengeController {
 
     @GetMapping("/{id}")
     public Challenge getChallengeById(@PathVariable int id) {
-        return challengeRepository.findById(id).orElse(null);
+    Challenge challenge = challengeRepository.findById(id).orElse(null);
+        return challenge;
     }
 
 //    @PostMapping

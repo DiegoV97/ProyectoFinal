@@ -1,12 +1,6 @@
 package com.proyectoback.proyectoBack.entitys;
 
-
-
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,7 +36,8 @@ public class Challenge {
     @JsonManagedReference
     private Player player;
 
-    @OneToOne(mappedBy = "challenge", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "challenge")
+    @JsonManagedReference
     private Video videos;
 
 }
