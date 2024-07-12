@@ -3,11 +3,7 @@ package com.proyectoback.proyectoBack.entitys;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +23,10 @@ public class Video {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	private String videoUrl;
-	private int likes;
+	
+	@OneToMany(mappedBy = "video", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	List<MeGusta> meGustas;
 	
 	@OneToOne
     @JoinColumn(name = "challenge_id")
