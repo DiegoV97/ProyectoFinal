@@ -1,18 +1,18 @@
 package com.proyectoback.proyectoBack.entitys;
 
 import java.util.ArrayList;
-
-
 import java.util.Collection;
-import java.util.Set;
-
+import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,7 +24,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "user")
 @Getter @Setter
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
 public class User implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +39,11 @@ public class User implements UserDetails{
 	private boolean accountNonLocked= true;
 	private boolean credentialsNonExpired = true;
 	private boolean enabled= true;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@Column(nullable = true	)
+	@JsonManagedReference
+	List<Comment> comments;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
