@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -27,7 +30,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "user")
 @Getter @Setter
-
 public class User implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,11 +45,12 @@ public class User implements UserDetails{
 	private boolean credentialsNonExpired = true;
 	private boolean enabled= true;
 	
-	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	List<MeGusta> meGustas;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// Devolvemos un ArrayList vacío porque nuestra app no tiene roles
 		return new ArrayList<>();
 	}
 

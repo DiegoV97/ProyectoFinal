@@ -24,51 +24,7 @@ import com.proyectoback.proyectoBack.repositories.VideoRepository;
 @RestController
 	@RequestMapping("/videos")
 	public class VideoController {
-	    @Autowired
-	    private VideoRepository videoRepository;
-	    @Autowired
-		private UserRepository userRepository;
-	    
-	    
 	 
-
-	    @PostMapping("/{id}/like")
-	    public ResponseEntity<String> likeVideo(@PathVariable Integer id) {
-	        Optional<Video> optionalVideo = videoRepository.findById(id);
-	        if (optionalVideo.isPresent()) {
-	            Video video = optionalVideo.get();
-	            video.setLikes(video.getLikes());
-	            videoRepository.save(video);
-	            return ResponseEntity.ok("Me gusta añadido.");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("Video no encontrado.");
-	        }
-	    }
-	    
-	    @PutMapping("/userlikes/{id}")
-	    public ResponseEntity<String> userLikesVideo(@PathVariable Integer id, @RequestParam("user") String username) {
-	        Optional<Video> optionalVideo = videoRepository.findById(id);
-	        System.out.println("**************"+id);
-	        if (optionalVideo.isPresent()) {
-	            Video video = optionalVideo.get();
-	            User user = userRepository.findByUsername(username);
-	            List <User> likes= video.getLikes();
-	            if(likes == null) {
-	            	likes = new ArrayList<User>();
-	            }
-	            likes.add(user);
-	            video.setLikes(likes);
-	            if (user != null) {
-	                //video.getLikes().add(user);
-	                videoRepository.save(video);
-	                return ResponseEntity.ok("Usuario añadió like al video.");
-	            } else {
-	                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("Usuario no encontrado.");
-	            }
-	        } else {
-	            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("Video no encontrado.");
-	        }
-	    }
 	}
 
 

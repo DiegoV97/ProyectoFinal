@@ -32,10 +32,7 @@ import com.proyectoback.proyectoBack.services.CloudinaryService;
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
-	//final Path root = Paths.get("uploads");
 	
-//	  @Value("${upload.dir}")
-//	    private String uploadDir;
 
 	
 	@Autowired
