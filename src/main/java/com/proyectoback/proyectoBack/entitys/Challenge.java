@@ -1,15 +1,6 @@
 package com.proyectoback.proyectoBack.entitys;
-
-
-<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-=======
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.CascadeType;
->>>>>>> 11a3d1945c0b31b6e6a717beb720c676fd2bf18a
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
