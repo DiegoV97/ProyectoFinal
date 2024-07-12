@@ -44,12 +44,15 @@ public class User implements UserDetails{
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 
+
+	@JsonManagedReference
+	List<MeGusta> meGustas;
+
+
 	@Column(nullable = true	)
 	@JsonManagedReference
 	List<Comment> comments;
 
-	@JsonManagedReference
-	List<MeGusta> meGustas;
 
 	
 	@Override
