@@ -3,13 +3,13 @@ package com.proyectoback.proyectoBack.entitys;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,6 +25,7 @@ import lombok.Setter;
 @Table(name = "user")
 @Getter @Setter
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
+
 public class User implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,13 +42,17 @@ public class User implements UserDetails{
 	private boolean enabled= true;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+	@JsonManagedReference
+	List<MeGusta> meGustas;
+
 	@Column(nullable = true	)
 	@JsonManagedReference
 	List<Comment> comments;
+
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// Devolvemos un ArrayList vacío porque nuestra app no tiene roles
 		return new ArrayList<>();
 	}
 

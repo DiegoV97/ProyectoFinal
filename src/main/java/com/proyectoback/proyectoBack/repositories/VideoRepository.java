@@ -11,4 +11,5 @@ public interface VideoRepository extends CrudRepository<Video, Integer>{
 	@Query("SELECT v FROM Video v WHERE v.id=:id")
 	   Video findById(@Param("id")int id);
 
+
 }
