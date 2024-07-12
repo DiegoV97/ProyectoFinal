@@ -43,12 +43,10 @@ public class User implements UserDetails{
 	private boolean enabled= true;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-
-
 	@JsonManagedReference
 	List<MeGusta> meGustas;
 
-
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@Column(nullable = true	)
 	@JsonManagedReference
 	List<Comment> comments;
