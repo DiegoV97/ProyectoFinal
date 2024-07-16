@@ -24,7 +24,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "user")
 @Getter @Setter
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
 public class User implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

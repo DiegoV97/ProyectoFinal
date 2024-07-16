@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.proyectoback.proyectoBack.entitys.Challenge;
 import com.proyectoback.proyectoBack.entitys.Player;
 import com.proyectoback.proyectoBack.entitys.Video;
@@ -51,7 +50,9 @@ public class ChallengeController {
 
     @GetMapping("/{id}")
     public Challenge getChallengeById(@PathVariable int id) {
+    	
     Challenge challenge = challengeRepository.findById(id).orElse(null);
+    
         return challenge;
     }
 
