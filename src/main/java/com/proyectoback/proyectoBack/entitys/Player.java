@@ -24,8 +24,9 @@ public class Player extends User {
     @JsonBackReference
     private List<Challenge> challenges;
     
-    @JsonManagedReference
+    
     @OneToMany(mappedBy = "player",fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List <Video> videos;
 
     public Player(UserDto user) {
