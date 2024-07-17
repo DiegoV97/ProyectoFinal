@@ -1,9 +1,5 @@
 package com.proyectoback.proyectoBack.entitys;
-
-
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

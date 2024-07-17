@@ -1,7 +1,11 @@
 package com.proyectoback.proyectoBack.controllers;
 
 import java.io.IOException;
-
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +55,9 @@ public class ChallengeController {
 
     @GetMapping("/{id}")
     public Challenge getChallengeById(@PathVariable int id) {
+    	
     Challenge challenge = challengeRepository.findById(id).orElse(null);
+    
         return challenge;
     }
 
@@ -142,6 +148,7 @@ public class ChallengeController {
         	video.setPlayer(player);
         	video.setVideoUrl((String)result.get("url"));
         	video.setChallenge(challenge);
+    		video.setCreationDate(LocalDateTime.now());
         videoRepository.save(video);
             
 
