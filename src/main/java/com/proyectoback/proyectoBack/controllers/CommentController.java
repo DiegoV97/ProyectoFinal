@@ -29,7 +29,7 @@ public class CommentController {
 	 private UserRepository userRepository;
 	 
 	 @PostMapping
-	 public String createComment(@RequestParam("content") String content, @RequestParam("user") String username, @RequestParam("video") int 		videoId) {
+	 public String createComment(@RequestParam("content") String content, @RequestParam("user") String username, @RequestParam("video") int videoId) {
 		 
 		 	User user = userRepository.findByUsername(username);
 	        if (user == null) {
