@@ -1,5 +1,6 @@
 package com.proyectoback.proyectoBack.entitys;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -14,32 +15,39 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
+
 @Entity
-@Getter@Setter
+@Getter
+@Setter
 public class Video {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String videoUrl;
-	
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDateTime creationDate;
+
 	@OneToMany(mappedBy = "video", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
 	List<MeGusta> meGustas;
-	
+
 	@OneToOne
-    @JoinColumn(name = "challenge_id")
+	@JoinColumn(name = "challenge_id")
 	@JsonBackReference
-    private Challenge challenge;
-	
+	private Challenge challenge;
+
 	@ManyToOne
-    @JoinColumn(name = "player_id")
+	@JoinColumn(name = "player_id")
 	@JsonBackReference
-    private Player player;
-	
-	 @OneToMany(mappedBy = "video", cascade = CascadeType.ALL, orphanRemoval = true)
-	 @JsonManagedReference
-	 private List<Comment> comments;
+	private Player player;
+
+	@OneToMany(mappedBy = "video", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	private List<Comment> comments;
 }

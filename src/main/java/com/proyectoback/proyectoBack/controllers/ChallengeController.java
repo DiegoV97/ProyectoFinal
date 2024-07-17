@@ -1,7 +1,11 @@
 package com.proyectoback.proyectoBack.controllers;
 
 import java.io.IOException;
-
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.proyectoback.proyectoBack.entitys.Challenge;
 import com.proyectoback.proyectoBack.entitys.Player;
 import com.proyectoback.proyectoBack.entitys.Video;
@@ -148,6 +153,7 @@ public class ChallengeController {
         	video.setPlayer(player);
         	video.setVideoUrl((String)result.get("url"));
         	video.setChallenge(challenge);
+    		video.setCreationDate(LocalDateTime.now());
         videoRepository.save(video);
             
 
