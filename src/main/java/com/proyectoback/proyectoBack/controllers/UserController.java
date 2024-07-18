@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,10 +22,12 @@ import com.proyectoback.proyectoBack.Dto.UserDto;
 import com.proyectoback.proyectoBack.entitys.Moderator;
 import com.proyectoback.proyectoBack.entitys.Player;
 import com.proyectoback.proyectoBack.entitys.User;
+import com.proyectoback.proyectoBack.entitys.Video;
 import com.proyectoback.proyectoBack.entitys.Watcher;
 import com.proyectoback.proyectoBack.repositories.ModeratorRepository;
 import com.proyectoback.proyectoBack.repositories.PlayerRepository;
 import com.proyectoback.proyectoBack.repositories.UserRepository;
+import com.proyectoback.proyectoBack.repositories.VideoRepository;
 import com.proyectoback.proyectoBack.repositories.WatcherRepository;
 import com.proyectoback.proyectoBack.services.CloudinaryService;
 
@@ -44,9 +45,11 @@ public class UserController {
 	private WatcherRepository watcherRepository;
 	@Autowired
 	private ModeratorRepository moderatorRepository;
-	 @Autowired
-	 private CloudinaryService cloudinaryService;
-
+	@Autowired
+	private CloudinaryService cloudinaryService;
+	@Autowired
+	private VideoRepository videoRepository;
+	
 	@Autowired
 	BCryptPasswordEncoder encoder;
 
@@ -89,7 +92,14 @@ public class UserController {
 
 	@GetMapping("/{username}")
 	public User selectUserById(@PathVariable("username")String username) {
-		return userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username);
+		if(user != null) {
+			if (user instanceof Player) {
+				List<Video> videos = videoRepository.findAllByPlayerIdOrderByIdDesc(user.getId());
+				((Player) user).setVideos(videos);
+			}
+		}
+		return user;
 	}
 	
 	@GetMapping("/ranking")
@@ -97,6 +107,7 @@ public class UserController {
 		List<User> points = userRepository.orderByPoints();
 		return points;
 	}
+	
 
 	//@PostMapping("/upload")
 	//public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
@@ -140,4 +151,5 @@ public class UserController {
             return "Fallo al subir el archivo";
         }
     }
+	
 }
