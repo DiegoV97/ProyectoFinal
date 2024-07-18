@@ -42,7 +42,6 @@ public class User implements UserDetails{
 	private boolean enabled= true;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	@JsonBackReference
 	List<MeGusta> meGustas;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

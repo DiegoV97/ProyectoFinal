@@ -25,7 +25,6 @@ public class MeGusta {
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	@JsonManagedReference
 	private User user;
 	
 }
