@@ -31,7 +31,6 @@ public class Comment {
     
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     User user;
 
 }

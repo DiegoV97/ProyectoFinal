@@ -50,7 +50,6 @@ public class ChallengeController {
     @GetMapping
     public List<Challenge> getChallenges() {
         return challengeRepository.findAllByOrderByDesc();
-
     }
 
     @GetMapping("/{id}")
