@@ -6,5 +6,5 @@ RUN mvn -f /home/app/pom.xml
 
 # Run stage
 FROM openjdk:17-alpine 
-COPY /home/app/target/proyectoBack-0.0.1-SNAPSHOT.war /app.war 
+COPY /target/proyectoBack-0.0.1-SNAPSHOT.war /app.war 
 ENTRYPOINT ["java", "-jar", "/app.war"]
