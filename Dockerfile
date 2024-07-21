@@ -6,5 +6,5 @@ RUN mvn clean package -DskipTests
 # Run stage
 FROM openjdk:17-slim
 COPY --from=build /target/proyectoBack-0.0.1-SNAPSHOT.war /app.war
-EXPOSE 8080
+EXPOSE 10000
 CMD ["java", "-jar", "/app.war"]
