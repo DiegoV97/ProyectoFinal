@@ -50,4 +50,10 @@ public class Video {
 	@OneToMany(mappedBy = "video", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
 	private List<Comment> comments;
+
+	public Video() {
+		super();
+	}
+	
+	
 }
