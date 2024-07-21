@@ -147,7 +147,7 @@ public class ChallengeController {
         	video.setPlayer(player);
         	video.setVideoUrl((String)result.get("url"));
         	video.setChallenge(challenge);
-//    		video.setCreationDate(LocalDateTime.now());
+    		video.setCreationDate(LocalDateTime.now());
         videoRepository.save(video);
             
 
