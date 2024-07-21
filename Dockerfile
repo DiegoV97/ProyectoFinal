@@ -4,7 +4,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Run stage
-FROM openjdk:17-alpine 
-COPY --from=build /target/proyectoBack-0.0.1-SNAPSHOT.war /proyectoBack.war 
+FROM openjdk:17-alpine
+COPY --from=build /target/*.war /app.war
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/proyectoBack.war"]
+CMD ["java", "-jar", "/app.war"]
