@@ -1,7 +1,7 @@
 # Build stage
 FROM maven:3.8.5-openjdk-17 AS build 
 COPY . .
-RUN ./mvnw spring-boot:run
+RUN mvn clean package
 
 # Run stage
 FROM openjdk:17-slim
