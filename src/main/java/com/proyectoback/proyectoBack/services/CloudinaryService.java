@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.EagerTransformation;
+import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
 
 @Service
@@ -56,8 +57,8 @@ public class CloudinaryService {
 	            ObjectUtils.asMap("resource_type", "video",
 	                    "public_id", uniquePublicId,
 	                    "eager", Arrays.asList(
-	                        new EagerTransformation().width(480).height(270).crop("limit").videoCodec("auto").quality("auto").bitRate("800k"),
-	                        new EagerTransformation().width(160).height(90).crop("limit").videoCodec("auto").quality("auto").bitRate("400k")),
+	                        new Transformation().width(480).height(270).crop("limit").videoCodec("auto").quality("auto").bitRate("800k"),
+	                        new Transformation().width(160).height(90).crop("limit").videoCodec("auto").quality("auto").bitRate("400k")),
 	                    "eager_async", true,
 	                    "eager_notification_url", "https://mysite.example.com/notify_endpoint"));
 	    file.delete();
