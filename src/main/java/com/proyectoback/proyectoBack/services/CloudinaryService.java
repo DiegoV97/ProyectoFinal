@@ -56,13 +56,14 @@ public class CloudinaryService {
 	            ObjectUtils.asMap("resource_type", "video",
 	                    "public_id", uniquePublicId,  // Usa el timestamp único como public_id
 	                    "eager", Arrays.asList(
-	                        new EagerTransformation().width(300).height(300).crop("pad").audioCodec("none"),
-	                        new EagerTransformation().width(160).height(100).crop("crop").gravity("south").audioCodec("none")),
+	                        new EagerTransformation().width(480).height(270).crop("limit").videoCodec("auto").quality("auto:low").bitRate("500k"),
+	                        new EagerTransformation().width(160).height(90).crop("limit").videoCodec("auto").quality("auto:low").bitRate("250k")),
 	                    "eager_async", true,
 	                    "eager_notification_url", "https://mysite.example.com/notify_endpoint"));
 	    file.delete();
 	    return result;
 	}
+
 
 
 	
