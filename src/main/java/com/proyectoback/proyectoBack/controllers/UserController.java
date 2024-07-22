@@ -3,6 +3,7 @@ package com.proyectoback.proyectoBack.controllers;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -103,10 +104,15 @@ public class UserController {
 	}
 	
 	@GetMapping("/ranking")
-	public List<User> orderByPoints(){
-		List<User> points = userRepository.orderByPoints();
-		return points;
+	public List<String> orderByPoints() {
+	    List<User> users = userRepository.orderByPoints();
+	    // Transformar la lista de usuarios a una lista de nombres de usuario
+	    List<String> usernames = users.stream()
+	                                  .map(User::getUsername)
+	                                  .collect(Collectors.toList());
+	    return usernames;
 	}
+
 	
 
 	//@PostMapping("/upload")
