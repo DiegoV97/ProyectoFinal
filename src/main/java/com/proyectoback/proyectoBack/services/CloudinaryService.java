@@ -51,18 +51,19 @@ public class CloudinaryService {
 	
 	public Map uploadVideo(MultipartFile multipartFile) throws IOException {
 	    File file = convert(multipartFile);
-	    String uniquePublicId = "video_" + System.currentTimeMillis();  // Genera un timestamp único para cada video
+	    String uniquePublicId = "video_" + System.currentTimeMillis();
 	    Map result = cloudinary.uploader().upload(file, 
 	            ObjectUtils.asMap("resource_type", "video",
-	                    "public_id", uniquePublicId,  // Usa el timestamp único como public_id
+	                    "public_id", uniquePublicId,
 	                    "eager", Arrays.asList(
-	                        new EagerTransformation().width(480).height(270).crop("limit").videoCodec("auto").quality("auto:low").bitRate("500k"),
-	                        new EagerTransformation().width(160).height(90).crop("limit").videoCodec("auto").quality("auto:low").bitRate("250k")),
+	                        new EagerTransformation().width(480).height(270).crop("limit").videoCodec("auto").bitRate("500k"),
+	                        new EagerTransformation().width(160).height(90).crop("limit").videoCodec("auto").bitRate("250k")),
 	                    "eager_async", true,
 	                    "eager_notification_url", "https://mysite.example.com/notify_endpoint"));
 	    file.delete();
 	    return result;
 	}
+
 
 
 
