@@ -105,7 +105,7 @@ public class ChallengeController {
     public String uploadFile(
     		@RequestParam("player") String username,
     		@RequestParam("watcher")String usernamewatcher, 
-    		@RequestParam("file") MultipartFile file, 
+    		@RequestParam("file") String file, 
     		@RequestParam("points") int points, 
     		@RequestParam("challenge") int idchallenge ) {
 		
@@ -129,33 +129,21 @@ public class ChallengeController {
 
         
 
-        try {
-            // Generar un nombre de archivo único
-//            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-//            Path path = Paths.get(uploadDir + File.separator + fileName);
-//            Files.copy(file.getInputStream(), path);
-        	
-        	Map result = cloudinaryService.uploadVideo(file);
+        player.setPoints(points);
+		player.setChallengeCompleted(1);
+		watcher.setProposedChallenge(1);
+		
 
-        	player.setPoints(points);
-        	player.setChallengeCompleted(1);
-        	watcher.setProposedChallenge(1);
-        	
+		Video video = new Video();
+		
+		video.setPlayer(player);
+		video.setVideoUrl(file);
+		video.setChallenge(challenge);
+		video.setCreationDate(LocalDateTime.now());
+      videoRepository.save(video);
+		
 
-        	Video video = new Video();
-        	
-        	video.setPlayer(player);
-        	video.setVideoUrl((String)result.get("url"));
-        	video.setChallenge(challenge);
-    		video.setCreationDate(LocalDateTime.now());
-        videoRepository.save(video);
-            
-
-            return "Archivo subido exitosamente: " + video.getVideoUrl();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Fallo al subir el archivo";
-        }
+		return "Archivo subido exitosamente: " + video.getVideoUrl();
     }
 }
 	
