@@ -148,7 +148,7 @@ public class UserController {
         	
         	Map result = cloudinaryService.upload(file);
 
-        	user.setImagenUrl((String)result.get("url"));     
+        	user.setImagenUrl((String)result.get("secure_url"));     
             userRepository.save(user);
 
             return "Archivo subido exitosamente: " + user.getImagenUrl();
